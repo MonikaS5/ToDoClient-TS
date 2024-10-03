@@ -136,7 +136,7 @@ const Todo: React.FC = () => {
                                         <div className="col-md-9">
                                             <div className="form-group">
                                                 <p >
-                                                <label><strong>Task :  </strong></label>
+                                                <label className="me-1"><strong>Task :  </strong></label>
                                                     {editableId === data._id ? (
                                                         <input
                                                             type="text"
@@ -167,7 +167,7 @@ const Todo: React.FC = () => {
                                             </div>
                                             <div className="form-group">
                                                 <p >
-                                                <label><strong>Status : </strong></label>
+                                                <label className="me-1"><strong>Status : </strong></label>
                                                     
                                                     {editableId === data._id ? (
                                                         <select
@@ -186,7 +186,7 @@ const Todo: React.FC = () => {
                                             </div>
                                             <div className="form-group">
                                                 <p>
-                                                <label><strong>Deadline : </strong></label>
+                                                <label className="me-1"><strong>Deadline : </strong></label>
 
                                                     {editableId === data._id ? (
                                                         <input
