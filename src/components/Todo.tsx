@@ -151,7 +151,7 @@ const Todo: React.FC = () => {
                                             </div>
                                             <div className="form-group">
                                                 <p>
-                                                <label><strong>Description  </strong></label>
+                                                <label className="me-1"><strong>Description : </strong></label>
                                                     {editableId === data._id ? (
                                                         <textarea
                                                             rows={3}
