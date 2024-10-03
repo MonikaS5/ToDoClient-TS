@@ -174,11 +174,11 @@ function Todo() {
                                         <div className="col-md-3 ">
 
                                             <div className="btn-group " role="group" aria-label="Basic mixed styles example">
-                                                <button type="button" title="Edit" className="btn btn-outline-secondary btnedit" onClick={() => handleEditTask(data._id)}>
+                                                <button type="button" title="Edit" className="btn btn-outline-secondary btnEdit" onClick={() => handleEditTask(data._id)}>
                                                     <h5>< PencilSquare /></h5></button>
-                                                <button type="button" title="Save" className="btn btn-outline-secondary btnsave" onClick={() => saveEditedTask(data._id)}>
+                                                <button type="button" title="Save" className="btn btn-outline-secondary btnSave" onClick={() => saveEditedTask(data._id)}>
                                                     <h5><Save /></h5></button>
-                                                <button type="button" title="Delete" className="btn btn-outline-secondary btndel" onClick={() => deleteTask(data._id)}>
+                                                <button type="button" title="Delete" className="btn btn-outline-secondary btnDel" onClick={() => deleteTask(data._id)}>
                                                     <h5>< Trash /></h5></button>
 
                                             </div>

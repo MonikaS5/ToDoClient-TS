@@ -1,0 +1,20 @@
+.btnSave{
+  color: #177612;
+}
+.btnSave:hover{
+  background-color:#177612;
+  
+}
+
+.btnEdit{   
+  color:#0f0f2e;
+}
+.btnEdit:hover{
+  background-color:#111142;
+}
+.btnDel{
+  color:#dc391c;
+}
+.btnDel:hover{
+  background-color: #dc391c;
+}
