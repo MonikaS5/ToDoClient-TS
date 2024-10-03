@@ -27,7 +27,7 @@ const Todo: React.FC = () => {
 
     // Fetch tasks from database
     useEffect(() => {
-        axios.get('https://localhost:5000/getTodoList')
+        axios.get('http://localhost:5000/getTodoList')
             .then(result => {
                 setTodoList(result.data)
             })
@@ -56,7 +56,7 @@ const Todo: React.FC = () => {
             return;
         }
 
-        axios.post('https://localhost:5000/addTodoList', { task: newTask, description: newDescription, status: newStatus, deadline: newDeadline })
+        axios.post('http://localhost:5000/addTodoList', { task: newTask, description: newDescription, status: newStatus, deadline: newDeadline })
             .then(res => {
                setTodoList(prevList=>[...prevList, res.data]);
                setNewTask("");
@@ -85,16 +85,16 @@ const Todo: React.FC = () => {
 
 
         // Updating edited data to the database through updateById API
-        axios.post('https://localhost:5000/updateTodoList/' + id, editedData)
+        axios.post('http://localhost:5000/updateTodoList/' + id, editedData)
             .then(() => {
                 setTodoList(prevList=>
                     prevList.map(item=>(item._id===id ?{...item, ...editedData}:item))
-                );
+                ); //update specific task
                 setEditableId(null);
                 setEditedTask("");
                 setEditedDescription("");
                 setEditedStatus("");
-                setEditedDeadline(""); // Clear the edited deadline
+                setEditedDeadline(""); 
                 
             })
             .catch(err => console.log(err));
@@ -102,11 +102,10 @@ const Todo: React.FC = () => {
 
 
     // Delete task from database
-    const deleteTask = (id) => {
-        axios.delete('https://localhost:5000/deleteTodoList/' + id)
-            .then(result => {
-                console.log(result);
-                window.location.reload();
+    const deleteTask = (id:string) => {
+        axios.delete('http://localhost:5000/deleteTodoList/' + id)
+            .then(() => {
+                setTodoList(prevList=> prevList.filter(item=>item._id !== id));
             })
             .catch(err =>
                 console.log(err)
@@ -117,7 +116,7 @@ const Todo: React.FC = () => {
         <div className="container mt-5">
             <div className="row">
                 <div className="col-md-7 ">
-                    <h2 className="text-start mb-2"><span className="text-warning me-2"><EmojiSmile /></span>Todos </h2>
+                    <h2 className="text-start mb-2"><span className="text-warning me-2"><EmojiSmile /></span>ToDos </h2>
 
                     {Array.isArray(todoList) ? (
                         <ul >
@@ -161,12 +160,16 @@ const Todo: React.FC = () => {
                                                     <span className="fw-bold">Status :  </span>
 
                                                     {editableId === data._id ? (
-                                                        <input
-                                                            type="text"
+                                                        <select
                                                             className="form-control"
                                                             value={editedStatus}
                                                             onChange={(e) => setEditedStatus(e.target.value)}
-                                                        />
+                                                        >
+                                                            <option value="" disabled>Select Status...</option>
+                                                            <option value="In Progress" >In Progress</option>
+                                                            <option value="Pending" >Pending</option>
+                                                            <option value="Complete" >Complete</option>
+                                                        </select>
                                                     ) : (
                                                         data.status
                                                     )}</p>
