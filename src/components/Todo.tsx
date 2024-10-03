@@ -2,17 +2,28 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { PencilSquare, Trash, EmojiSmile, PlusCircle, Save } from 'react-bootstrap-icons';
 
-function Todo() {
-    const [todoList, setTodoList] = useState([]);
-    const [editableId, setEditableId] = useState(null);
-    const [editedTask, setEditedTask] = useState("");
-    const [editedDescription, setEditedDescription] = useState("");
-    const [editedStatus, setEditedStatus] = useState("");
+
+//Defining type for ToDO item
+
+interface ToDoItem{
+    _id: string;
+    task: string;
+    description: string;
+    status: string;
+   deadline?: string;
+}
+
+const Todo: React.FC = () => {
+    const [todoList, setTodoList] = useState<ToDoItem[]>([]);
+    const [editableId, setEditableId] = useState<string | null>(null);
+    const [editedTask, setEditedTask] = useState<string>("");
+    const [editedDescription, setEditedDescription] = useState<string>("");
+    const [editedStatus, setEditedStatus] = useState<string>("");
     const [newTask, setNewTask] = useState("");
     const [newDescription, setNewDescription]= useState("");
-    const [newStatus, setNewStatus] = useState("");
-    const [newDeadline, setNewDeadline] = useState("");
-    const [editedDeadline, setEditedDeadline] = useState("");
+    const [newStatus, setNewStatus] = useState<string>("");
+    const [newDeadline, setNewDeadline] = useState<string>("");
+    const [editedDeadline, setEditedDeadline] = useState<string>("");
 
     // Fetch tasks from database
     useEffect(() => {
