@@ -28,7 +28,7 @@ const Todo: React.FC = () => {
 
     // Fetch tasks from database
     useEffect(() => {
-        axios.get('http://localhost:5000/getTodoList')
+        axios.get('https://todoserverts.onrender.com/getTodoList')
             .then(result => {
                 setTodoList(result.data)
             })
@@ -57,7 +57,7 @@ const Todo: React.FC = () => {
             return;
         }
 
-        axios.post('http://localhost:5000/addTodoList', { task: newTask, description: newDescription, status: newStatus, deadline: newDeadline })
+        axios.post('https://todoserverts.onrender.com/addTodoList', { task: newTask, description: newDescription, status: newStatus, deadline: newDeadline })
             .then(res => {
                setTodoList(prevList=>[...prevList, res.data]);
                setNewTask("");
@@ -86,7 +86,7 @@ const Todo: React.FC = () => {
 
 
         // Updating edited data to the database through updateById API
-        axios.post('http://localhost:5000/updateTodoList/' + id, editedData)
+        axios.post('https://todoserverts.onrender.com/updateTodoList/' + id, editedData)
             .then(() => {
                 setTodoList(prevList=>
                     prevList.map(item=>(item._id===id ?{...item, ...editedData}:item))
@@ -104,7 +104,7 @@ const Todo: React.FC = () => {
 
     // Delete task from database
     const deleteTask = (id:string) => {
-        axios.delete('http://localhost:5000/deleteTodoList/' + id)
+        axios.delete('https://todoserverts.onrender.com/deleteTodoList/' + id)
             .then(() => {
                 setTodoList(prevList=> prevList.filter(item=>item._id !== id));
             })
@@ -125,7 +125,7 @@ const Todo: React.FC = () => {
     return (
         <div className="container mt-5">
             <div className="row">
-                <div className="col-md-7 ">
+                <div className="col-md-7 col-sm-12 order-2 order-md-1">
                     <h2 className="text-start mb-2"><span className="text-warning me-2"><EmojiSmile /></span>ToDos </h2>
 
                     {Array.isArray(todoList) ? (
@@ -135,8 +135,8 @@ const Todo: React.FC = () => {
                                     <div className="row">
                                         <div className="col-md-9">
                                             <div className="form-group">
-                                                <p className="fw-bold">
-                                                    <span>Task :  </span>
+                                                <p >
+                                                <label><strong>Task :  </strong></label>
                                                     {editableId === data._id ? (
                                                         <input
                                                             type="text"
@@ -151,7 +151,7 @@ const Todo: React.FC = () => {
                                             </div>
                                             <div className="form-group">
                                                 <p>
-                                                    <span className="fw-bold">Description :  </span>
+                                                <label><strong>Description  </strong></label>
                                                     {editableId === data._id ? (
                                                         <textarea
                                                             rows={3}
@@ -167,8 +167,8 @@ const Todo: React.FC = () => {
                                             </div>
                                             <div className="form-group">
                                                 <p >
-                                                    <span className="fw-bold">Status :  </span>
-
+                                                <label><strong>Status : </strong></label>
+                                                    
                                                     {editableId === data._id ? (
                                                         <select
                                                             className="form-control"
@@ -186,7 +186,8 @@ const Todo: React.FC = () => {
                                             </div>
                                             <div className="form-group">
                                                 <p>
-                                                    <span className="fw-bold"> Deadline : </span>
+                                                <label><strong>Deadline : </strong></label>
+
                                                     {editableId === data._id ? (
                                                         <input
                                                             type="datetime-local"
@@ -223,7 +224,7 @@ const Todo: React.FC = () => {
                         </>
                     )}
                 </div>
-                <div className="col-md-5">
+                <div className="col-md-5 col-sm-12 order-1 order-md-2">
                     <h2 className="text-start mb-2"><span className="text-primary me-2"><PlusCircle /></span>Add Task</h2>
                     <form className=" p-4 bg-light">
                         <div className="mb-3">
