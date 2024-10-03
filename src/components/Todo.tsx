@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { PencilSquare, Trash, EmojiSmile, PlusCircle, Save } from 'react-bootstrap-icons';
 
 
+
 //Defining type for ToDO item
 
 interface ToDoItem{
@@ -110,6 +111,15 @@ const Todo: React.FC = () => {
             .catch(err =>
                 console.log(err)
             )
+    }
+
+    const resetFields = (e: React.FormEvent) =>{
+       e.preventDefault();
+        setNewTask("");
+        setNewDescription("");
+        setNewStatus("");
+        setNewDeadline("");
+
     }
 
     return (
@@ -222,6 +232,7 @@ const Todo: React.FC = () => {
                                 className="form-control"
                                 type="text"
                                 placeholder="Enter Your Task"
+                                value={newTask}
                                 onChange={(e) => setNewTask(e.target.value)}
                             />
                         </div>
@@ -230,15 +241,15 @@ const Todo: React.FC = () => {
                             <textarea
                                 rows={3}
                                 className="form-control"
-                                
+                                value={newDescription}
                                 placeholder="Enter Description"
                                 onChange={(e) => setNewDescription(e.target.value)}
                             ></textarea>
                         </div>
                         <div className="mb-3">
                             <label>Status</label>
-                            <select  className="form-select" onChange={(e) => setNewStatus(e.target.value)}>
-                                <option selected disabled>Select Status...</option>
+                            <select  className="form-select" value={newStatus} onChange={(e) => setNewStatus(e.target.value)}>
+                                <option value="" disabled>Select Status...</option>
                                 <option value="In progress">In Progress</option>
                                 <option value="Pending">Pending</option>
                                 <option value="complete " >Complete</option>
@@ -251,11 +262,15 @@ const Todo: React.FC = () => {
                             <input
                                 className="form-control"
                                 type="datetime-local"
+                                value={newDeadline}
                                 onChange={(e) => setNewDeadline(e.target.value)}
                             />
                         </div>
-                        <button onClick={addTask} className="btn btn-primary btn-sm">
+                        <button type="submit" onClick={addTask} className="btn btn-primary btn-sm me-3">
                             Add Task
+                        </button>
+                        <button type="button" onClick={e=>resetFields(e)} className="btn btn-secondary btn-sm">
+                           Reset
                         </button>
                     </form>
                 </div>
