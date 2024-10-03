@@ -27,7 +27,7 @@ const Todo: React.FC = () => {
 
     // Fetch tasks from database
     useEffect(() => {
-        axios.get('https://todos-rk4n.onrender.com/getTodoList')
+        axios.get('https://localhost:5000/getTodoList')
             .then(result => {
                 setTodoList(result.data)
             })
@@ -35,7 +35,7 @@ const Todo: React.FC = () => {
     }, [])
 
     // Function to handle the editable state for a specific row
-    const handleEditTask = (id) => {
+    const handleEditTask = (id: string) => {
         const rowData = todoList.find((data) => data._id === id);
         if (rowData) {
             setEditableId(id);
@@ -49,23 +49,26 @@ const Todo: React.FC = () => {
 
 
     // Function to add task to the database
-    const addTask = (e) => {
+    const addTask = (e:React.FormEvent) => {
         e.preventDefault();
         if (!newTask || !newDescription || !newStatus || !newDeadline) {
             alert("All fields must be filled out.");
             return;
         }
 
-        axios.post('https://todos-rk4n.onrender.com/addTodoList', { task: newTask, description: newDescription, status: newStatus, deadline: newDeadline })
+        axios.post('https://localhost:5000/addTodoList', { task: newTask, description: newDescription, status: newStatus, deadline: newDeadline })
             .then(res => {
-                console.log(res);
-                window.location.reload();
+               setTodoList(prevList=>[...prevList, res.data]);
+               setNewTask("");
+               setNewDescription("");
+               setNewStatus("");
+               setNewDeadline("");
             })
             .catch(err => console.log(err));
     }
 
     // Function to save edited data to the database
-    const saveEditedTask = (id) => {
+    const saveEditedTask = (id:string) => {
         const editedData = {
             task: editedTask,
             description: editedDescription,
@@ -82,15 +85,17 @@ const Todo: React.FC = () => {
 
 
         // Updating edited data to the database through updateById API
-        axios.post('https://todos-rk4n.onrender.com/updateTodoList/' + id, editedData)
-            .then(result => {
-                console.log(result);
+        axios.post('https://localhost:5000/updateTodoList/' + id, editedData)
+            .then(() => {
+                setTodoList(prevList=>
+                    prevList.map(item=>(item._id===id ?{...item, ...editedData}:item))
+                );
                 setEditableId(null);
                 setEditedTask("");
                 setEditedDescription("");
                 setEditedStatus("");
                 setEditedDeadline(""); // Clear the edited deadline
-                window.location.reload();
+                
             })
             .catch(err => console.log(err));
     }
@@ -98,7 +103,7 @@ const Todo: React.FC = () => {
 
     // Delete task from database
     const deleteTask = (id) => {
-        axios.delete('https://todos-rk4n.onrender.com/deleteTodoList/' + id)
+        axios.delete('https://localhost:5000/deleteTodoList/' + id)
             .then(result => {
                 console.log(result);
                 window.location.reload();
@@ -140,7 +145,7 @@ const Todo: React.FC = () => {
                                                     <span className="fw-bold">Description :  </span>
                                                     {editableId === data._id ? (
                                                         <textarea
-                                                            rows="3"
+                                                            rows={3}
                                                             className="form-control"
                                                             value={editedDescription}
                                                             onChange={(e) => setEditedDescription(e.target.value)}>
@@ -220,7 +225,7 @@ const Todo: React.FC = () => {
                         <div className="mb-3">
                             <label>Description</label>
                             <textarea
-                                rows="3"
+                                rows={3}
                                 className="form-control"
                                 
                                 placeholder="Enter Description"
